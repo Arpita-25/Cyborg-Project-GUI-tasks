@@ -22,12 +22,14 @@ class process_img(Ui_MainWindow):
     def __init__(self, MainWindow):
         super(process_img, self).__init__(MainWindow)
         
+        self.printer = QPrinter()
         self.fileName = ""
         self.img = ""
+        self.filePath = ""
         
         self.actionOpen.triggered.connect(self.open_img)
-        #self.actionSave.triggered.connect(self.save_img)
-        #self.pushButton.clicked.connect(self.convert)
+        self.actionSave.triggered.connect(self.save_img)
+        self.pushButton.clicked.connect(self.convert)
         
     def open_img(self):
         option=QFileDialog.Options()
@@ -39,18 +41,16 @@ class process_img(Ui_MainWindow):
         self.img=cv2.imread(self.fileName[0],0)
         cv2.imwrite('output.jpg',self.img)
         self.label_2.setPixmap(QtGui.QPixmap("output.jpg"))
-    
-    def save_img(self):
-        dialog = QPrintDialog(self.printer, self)
-        if dialog.exec_():
-            painter = QPainter(self.printer)
-            rect = painter.viewport()
-            size = self.label_2.pixmap().size()
-            size.scale(rect.size(), Qt.KeepAspectRatio)
-            painter.setViewport(rect.x(), rect.y(), size.width(), size.height())
-            painter.setWindow(self.label_2.pixmap().rect())
-            painter.drawPixmap(0, 0, self.label_2.pixmap())
+
         
+    def save_img(self): 
+        self.filePath, _ = QFileDialog.getSaveFileName(self, "Save Image", "", 
+                         "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ") 
+  
+        if self.filePath == "": 
+            return
+          
+        self.label_2.save(self.filePath) 
 
 if __name__ == "__main__":
     import sys
