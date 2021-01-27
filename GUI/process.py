@@ -38,7 +38,7 @@ class process_img(Ui_MainWindow):
     def convert(self):
         self.img=cv2.imread(self.fileName[0],0)
         cv2.imwrite('output.jpg',self.img)
-        self.label_2.setPixmap(QtGui.QPixmap(self.img))
+        self.label_2.setPixmap(QtGui.QPixmap("output.jpg"))
     
     def save_img(self):
         dialog = QPrintDialog(self.printer, self)
