@@ -6,7 +6,6 @@ Created on Mon Jan 25 23:41:13 2021
 """
 
 import os
-import sys
 import cv2
 import numpy as np
 
@@ -19,15 +18,16 @@ from PyQt5.QtWidgets import*
 from original_gui import Ui_MainWindow
 
 class process_img(Ui_MainWindow):
+    
     def __init__(self, MainWindow):
         super(process_img, self).__init__(MainWindow)
         
         self.fileName = ""
         self.img = ""
         
-        self.actionOpen.clicked.connect(self.open_img)
-        self.actionSave.clicked.connect(self.save_img)
-        self.pushButton.clicked.connect(self.convert)
+        self.actionOpen.triggered.connect(self.open_img)
+        #self.actionSave.triggered.connect(self.save_img)
+        #self.pushButton.clicked.connect(self.convert)
         
     def open_img(self):
         option=QFileDialog.Options()
@@ -39,7 +39,7 @@ class process_img(Ui_MainWindow):
         
 
 if __name__ == "__main__":
-    #import sys
+    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = process_img(MainWindow)
