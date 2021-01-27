@@ -32,13 +32,13 @@ class process_img(Ui_MainWindow):
     def open_img(self):
         option=QFileDialog.Options()
         widget=QWidget()
-        fileName=QFileDialog.getOpenFileName(widget,"Open Single File","Default File", 'Images (*.png, *.xmp *.jpg)',options=option)
-        self.label.setPixmap(QtGui.QPixmap(fileName[0]))
+        self.fileName=QFileDialog.getOpenFileName(widget,"Open Single File","Default File", 'Images (*.png, *.xmp *.jpg)',options=option)
+        self.label.setPixmap(QtGui.QPixmap(self.fileName[0]))
         
     def convert(self):
-        self.img=cv2.imread(fileName[0],0)
-        cv2.imwrite('output.jpg',img)
-        self.label_2.setPixmap(QtGui.QPixmap(img))
+        self.img=cv2.imread(self.fileName[0],0)
+        cv2.imwrite('output.jpg',self.img)
+        self.label_2.setPixmap(QtGui.QPixmap(self.img))
     
     def save_img(self):
         dialog = QPrintDialog(self.printer, self)
