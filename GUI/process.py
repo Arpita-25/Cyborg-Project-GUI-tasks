@@ -14,6 +14,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPixmap, QPalette, QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import*
+from PIL import Image
 
 from original_gui import Ui_MainWindow
 
@@ -26,6 +27,7 @@ class process_img(Ui_MainWindow):
         self.fileName = ""
         self.img = ""
         self.filePath = ""
+        self.qim = ""
         
         self.actionOpen.triggered.connect(self.open_img)
         self.actionSave.triggered.connect(self.save_img)
@@ -38,19 +40,24 @@ class process_img(Ui_MainWindow):
         self.label.setPixmap(QtGui.QPixmap(self.fileName[0]))
         
     def convert(self):
-        self.img=cv2.imread(self.fileName[0],0)
-        cv2.imwrite('output.jpg',self.img)
-        self.label_2.setPixmap(QtGui.QPixmap("output.jpg"))
-
-        
+        originalImage = cv2.imread(self.fileName[0],0)
+        new_im = Image.fromarray(originalImage)
+        from PIL.ImageQt import ImageQt
+        self.qim = ImageQt(new_im)
+        print(type(self.qim))
+        self.label_2.setPixmap(QtGui.QPixmap.fromImage(self.qim))
+    
     def save_img(self): 
+        options = QFileDialog.Options()
+        widget=QWidget()
         self.filePath, _ = QFileDialog.getSaveFileName(self, "Save Image", "", 
                          "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ") 
   
         if self.filePath == "": 
             return
           
-        self.label_2.save(self.filePath) 
+        self.label_2.save(self.filePath)
+        
 
 if __name__ == "__main__":
     import sys
