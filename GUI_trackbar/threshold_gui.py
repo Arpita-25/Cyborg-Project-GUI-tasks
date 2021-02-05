@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.type_slider.setOrientation(QtCore.Qt.Horizontal)
         self.type_slider.setObjectName("type_slider")
         self.type_slider.setMinimum(0)
-        self.type_slider.setMaximum(5)
+        self.type_slider.setMaximum(4)
         self.type_slider.setValue(0)
         #self.type_slider.setTickPosition(QSlider.TicksBelow)
         #self.type_slider.setTickInterval(5)
@@ -45,6 +45,9 @@ class Ui_MainWindow(object):
         self.value_slider.setGeometry(QtCore.QRect(150, 40, 581, 21))
         self.value_slider.setOrientation(QtCore.Qt.Horizontal)
         self.value_slider.setObjectName("horizontalSlider")
+        self.value_slider.setMinimum(0)
+        self.value_slider.setMaximum(255)
+        self.value_slider.setValue(0)
         
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(0, 70, 801, 16))
@@ -99,4 +102,3 @@ if __name__ == "__main__":
     # ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
