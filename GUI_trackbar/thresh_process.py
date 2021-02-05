@@ -33,8 +33,8 @@ class thresh(Ui_MainWindow):
         
         self.actionOpen.triggered.connect(self.open_img)
         #self.actionSave.triggered.connect(self.save_img)
-        #self.type_slider.clicked.connect(self.type_slide)
-        self.value_slider.triggered.connect(self.value_slide)
+        self.type_slider.valueChanged.connect(self.type_slide)
+        self.value_slider.valueChanged.connect(self.value_slide)
         
     def open_img(self):
         option=QFileDialog.Options()
@@ -42,7 +42,9 @@ class thresh(Ui_MainWindow):
         self.fileName=QFileDialog.getOpenFileName(widget,"Open Single File","Default File", 'Images (*.png, *.xmp *.jpg)',options=option)
         self.label.setPixmap(QtGui.QPixmap(self.fileName[0]))
         
-            
+    def type_slide(self):
+        pass
+        
     def value_slide(self):
         originalImage = cv2.imread(self.fileName[0],0)
         new_im = Image.fromarray(originalImage)
