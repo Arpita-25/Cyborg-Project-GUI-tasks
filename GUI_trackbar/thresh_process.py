@@ -15,6 +15,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPixmap, QPalette, QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import*
+from PIL import Image
 
 from threshold_gui import Ui_MainWindow
 
@@ -32,8 +33,7 @@ class thresh(Ui_MainWindow):
         self.slider_value = int(self.value_slider.value())
         
         self.actionOpen.triggered.connect(self.open_img)
-        #self.actionSave.triggered.connect(self.save_img)
-        self.type_slider.valueChanged.connect(self.type_slide)
+        self.type_slider.valueChanged.connect(self.value_slide)
         self.value_slider.valueChanged.connect(self.value_slide)
         
     def open_img(self):
@@ -44,25 +44,44 @@ class thresh(Ui_MainWindow):
         
     def type_slide(self):
         pass
-        
+    
     def value_slide(self):
-        originalImage = cv2.imread(self.fileName[0],0)
-        new_im = Image.fromarray(originalImage)
-        from PIL.ImageQt import ImageQt
-        qim = ImageQt(new_im)
-        img = cv2.cvtColor(qim, cv2.COLOR_BGR2GRAY)
+        img = cv2.imread(self.fileName[0],0)
+    
         if self.slider_type == 0:
             ret, thresh1 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_BINARY) 
-        if self.slider_type == 1:
+            new_im = Image.fromarray(thresh1)
+            from PIL.ImageQt import ImageQt
+            qim = ImageQt(new_im)
+            self.label.setPixmap(QtGui.QPixmap.fromImage(qim))
+            
+        elif self.slider_type == 1:
             ret, thresh2 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_BINARY_INV)
-        if self.slider_type == 2:
+            new_im = Image.fromarray(thresh2)
+            from PIL.ImageQt import ImageQt
+            qim = ImageQt(new_im)
+            self.label.setPixmap(QtGui.QPixmap.fromImage(qim))
+            
+        elif self.slider_type == 2:
             ret, thresh3 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_TRUNC)
-        if self.slider_type == 3:
-            ret, thresh4 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_TOZERO) 
-        if self.slider_type == 4:
-            ret, thresh5 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_TOZERO_INV) 
-        
-        self.label.setPixmap(QtGui.QPixmap(self.ret))
+            new_im = Image.fromarray(thresh3)
+            from PIL.ImageQt import ImageQt
+            qim = ImageQt(new_im)
+            self.label.setPixmap(QtGui.QPixmap.fromImage(qim))
+            
+        elif self.slider_type == 3:
+            ret, thresh4 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_TOZERO)
+            new_im = Image.fromarray(thresh4)
+            from PIL.ImageQt import ImageQt
+            qim = ImageQt(new_im)
+            self.label.setPixmap(QtGui.QPixmap.fromImage(qim))
+            
+        elif self.slider_type == 4:
+            ret, thresh5 = cv2.threshold(img, self.slider_value, 255, cv2.THRESH_TOZERO_INV)
+            new_im = Image.fromarray(thresh5)
+            from PIL.ImageQt import ImageQt
+            qim = ImageQt(new_im)
+            self.label.setPixmap(QtGui.QPixmap.fromImage(qim))
         
 if __name__ == "__main__":
     import sys
